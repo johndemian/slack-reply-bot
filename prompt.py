@@ -102,7 +102,10 @@ def build_user_prompt(
     if platform == "x":
         parts.append("""
 --- REPLY INSTRUCTIONS ---
-Generate 3 reply options for X/Twitter. Output ONLY the replies - no labels, no numbering, no recommendations. Just the raw text that can be copy-pasted directly into a reply.
+Generate 3 reply options for X/Twitter. Format each as:
+Option A: [reply text]
+Option B: [reply text]
+Option C: [reply text]
 
 Rules:
 - 2-5 sentences max per reply - punchy, not an essay
@@ -113,7 +116,10 @@ Rules:
     elif platform == "reddit":
         parts.append(f"""
 --- REPLY INSTRUCTIONS ---
-Generate 3 reply options for Reddit ({subreddit}). Output ONLY the replies - no labels, no numbering, no recommendations. Just the raw text that can be copy-pasted directly into a reply.
+Generate 3 reply options for Reddit ({subreddit}). Format each as:
+Option A: [reply text]
+Option B: [reply text]
+Option C: [reply text]
 
 Rules:
 - 3-8 sentences is fine - Reddit rewards depth
