@@ -102,58 +102,26 @@ def build_user_prompt(
     if platform == "x":
         parts.append("""
 --- REPLY INSTRUCTIONS ---
-Generate 2-3 reply options for X/Twitter. Format:
-
-**Option A - Subtle drop** (kimchi mentioned almost as an aside)
-[reply text]
-
-**Option B - Direct but human** (clearly positioning kimchi, from empathy)
-[reply text]
-
-**Option C - Lead with the number** (if a data angle exists)
-[reply text]
+Generate 3 reply options for X/Twitter. Output ONLY the replies - no labels, no numbering, no recommendations. Just the raw text that can be copy-pasted directly into a reply.
 
 Rules:
 - 2-5 sentences max per reply - punchy, not an essay
 - Don't start with "Hey" or tag the person unless completely natural
-- Empathize first, then mention @getkimchi naturally - never as a standalone CTA
-- The reply should feel like it came from someone who hit the same wall
+- Empathize first, then mention @getkimchi naturally
 - CRITICAL: Always use @getkimchi when mentioning the product on X
-- End with a one-line recommendation on which option to use and why
 """)
     elif platform == "reddit":
         parts.append(f"""
 --- REPLY INSTRUCTIONS ---
-Generate 2-3 reply options for Reddit ({subreddit}). Format:
-
-**Option A - Subtle drop** (kimchi mentioned almost as an aside)
-[reply text]
-
-**Option B - Direct but human** (clearly positioning kimchi, from empathy)
-[reply text]
-
-**Option C - Lead with the number** (if a data angle exists)
-[reply text]
+Generate 3 reply options for Reddit ({subreddit}). Output ONLY the replies - no labels, no numbering, no recommendations. Just the raw text that can be copy-pasted directly into a reply.
 
 Rules:
 - 3-8 sentences is fine - Reddit rewards depth
 - Lead by actually engaging with the post - add real value before mentioning kimchi
-- The kimchi mention should come at the end, framed as "this is what we built to \
-solve it" not "here's a product you should try"
+- The kimchi mention should come at the end, framed as "this is what we built to solve it"
 - Match the technical depth of {subreddit}
 - Never drop a naked link - give context before the URL
-- If it smells like a product pitch, Reddit will downvote instantly
 - CRITICAL: Always use "kimchi dev" (lowercase) when mentioning the product on Reddit - never use @getkimchi
-- State whether this should be a top-level reply or a response to a specific comment
-- End with a one-line recommendation on which option to use and why
 """)
-
-    # Fitness check instruction
-    parts.append(
-        "\nIMPORTANT: First assess if this post is a good fit for kimchi.dev. "
-        "If the pain point doesn't map to hibernation, routing, autoscaling, "
-        "cost optimization, or multi-provider management - say so clearly and "
-        "don't force a reply. It's fine to say 'not a fit'."
-    )
 
     return "\n".join(parts)
