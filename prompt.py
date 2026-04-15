@@ -57,7 +57,11 @@ Your writing is direct, factual, and anti-corporate. You write for technical aud
 - Cost optimization: routes requests to the cheapest capable model for the task
 - Works for self-hosted + SaaS models
 - Target audience: engineering teams running AI in production with real cost pressure
-- URL: kimchi.dev
+
+### Platform-Specific Mentions
+- On X/Twitter: ALWAYS use @getkimchi when referring to the product
+- On Reddit: ALWAYS use "kimchi dev" when referring to the product (lowercase, no link unless context warrants it)
+- Never use "kimchi.dev" as a standalone link - only include URL when genuinely helpful
 """
 
 
@@ -112,8 +116,9 @@ Generate 2-3 reply options for X/Twitter. Format:
 Rules:
 - 2-5 sentences max per reply - punchy, not an essay
 - Don't start with "Hey" or tag the person unless completely natural
-- Empathize first, then mention kimchi naturally - never as a standalone CTA
+- Empathize first, then mention @getkimchi naturally - never as a standalone CTA
 - The reply should feel like it came from someone who hit the same wall
+- CRITICAL: Always use @getkimchi when mentioning the product on X
 - End with a one-line recommendation on which option to use and why
 """)
     elif platform == "reddit":
@@ -138,6 +143,7 @@ solve it" not "here's a product you should try"
 - Match the technical depth of {subreddit}
 - Never drop a naked link - give context before the URL
 - If it smells like a product pitch, Reddit will downvote instantly
+- CRITICAL: Always use "kimchi dev" (lowercase) when mentioning the product on Reddit - never use @getkimchi
 - State whether this should be a top-level reply or a response to a specific comment
 - End with a one-line recommendation on which option to use and why
 """)
