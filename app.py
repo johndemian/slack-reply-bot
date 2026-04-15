@@ -106,7 +106,7 @@ def _process_mention(event: dict, say, client):
         }
 
         payload = {
-            "model": "kimchi-model",  # Adjust based on kimchi.dev's model name
+            "model": "minimax-m2.7",
             "messages": [
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_prompt}
