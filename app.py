@@ -35,6 +35,9 @@ KIMCHI_API_URL = os.environ.get("KIMCHI_API_URL", "https://llm.kimchi.dev/openai
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("kimchi-reply-bot")
 
+logger.info(f"KIMCHI_API_URL: {KIMCHI_API_URL}")
+logger.info(f"KIMCHI_API_KEY: {KIMCHI_API_KEY[:10] if KIMCHI_API_KEY else 'None'}...")
+
 # ---------------------------------------------------------------------------
 # Slack app
 # ---------------------------------------------------------------------------
