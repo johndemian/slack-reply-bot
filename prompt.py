@@ -102,32 +102,32 @@ def build_user_prompt(
     if platform == "x":
         parts.append("""
 --- REPLY INSTRUCTIONS ---
-Generate 3 reply options for X/Twitter. Format each as:
+Generate 3 reply options. Output ONLY the following format with no other text:
+
 Option 1: [reply text]
 Option 2: [reply text]
 Option 3: [reply text]
 
 Rules:
-- 2-5 sentences max per reply - punchy, not an essay
-- Don't start with "Hey" or tag the person unless completely natural
+- 2-5 sentences max per reply
+- Don't start with "Hey" or tag the person
 - Empathize first, then mention @getkimchi naturally
-- CRITICAL: Always use @getkimchi when mentioning the product on X
+- CRITICAL: Always use @getkimchi on X
 """)
     elif platform == "reddit":
         parts.append(f"""
 --- REPLY INSTRUCTIONS ---
-Generate 3 reply options for Reddit ({subreddit}). Format each as:
+Output ONLY:
 Option 1: [reply text]
 Option 2: [reply text]
 Option 3: [reply text]
 
 Rules:
-- 3-8 sentences is fine - Reddit rewards depth
-- Lead by actually engaging with the post - add real value before mentioning kimchi
-- The kimchi mention should come at the end, framed as "this is what we built to solve it"
+- 3-8 sentences per reply - Reddit rewards depth
+- Lead by engaging with the post - add real value first
+- Kimchi mention at the end, framed as "this is what we built"
 - Match the technical depth of {subreddit}
-- Never drop a naked link - give context before the URL
-- CRITICAL: Always use "kimchi dev" (lowercase) when mentioning the product on Reddit - never use @getkimchi
+- CRITICAL: Always use "kimchi dev" (lowercase) on Reddit - never use @getkimchi
 """)
 
     return "\n".join(parts)
