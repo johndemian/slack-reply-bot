@@ -1,0 +1,18 @@
+services:
+  - type: pserv
+    name: slack-reply-bot
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      - key: SLACK_APP_TOKEN
+        sync: false
+      - key: KIMCHI_API_KEY
+        sync: false
+      - key: KIMCHI_API_URL
+        value: https://llm.kimchi.dev/openai/v1
