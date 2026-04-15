@@ -164,13 +164,22 @@ def fetch_reddit_thread(url: str) -> PostContent:
     Fetch a Reddit post and top comments using the public JSON API.
     No API key needed - just append .json to the URL.
     """
+    import time
+
     clean_url = _normalize_reddit_url(url)
     json_url = f"{clean_url}.json"
 
-    headers = {"User-Agent": "kimchi-reply-bot/1.0"}
-    resp = requests.get(json_url, headers=headers, timeout=15)
-    resp.raise_for_status()
-    data = resp.json()
+    headers = {"User-Agent": "kimchi-reply-bot/1.0 (Python requests)"}
+
+    for attempt in range(3):
+        resp = requests.get(json_url, headers=headers, timeout=15)
+        if resp.status_code == 429:
+            wait_time = 2 ** attempt
+            time.sleep(wait_time)
+            continue
+        resp.raise_for_status()
+        data = resp.json()
+        break
 
     # data[0] = the post, data[1] = the comments
     post_data = data[0]["data"]["children"][0]["data"]
