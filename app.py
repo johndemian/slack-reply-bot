@@ -117,7 +117,8 @@ def _process_mention(event: dict, say, client):
             "max_tokens": 2048
         }
 
-        response = requests.post(KIMCHI_API_URL, headers=headers, json=payload)
+        api_url = f"{KIMCHI_API_URL}/chat/completions"
+        response = requests.post(api_url, headers=headers, json=payload)
         response.raise_for_status()
 
         reply_text = response.json()["choices"][0]["message"]["content"]
