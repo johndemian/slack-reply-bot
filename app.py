@@ -123,6 +123,11 @@ def _process_mention(event: dict, say, client):
 
         reply_text = response.json()["choices"][0]["message"]["content"]
 
+        # Slack has a 3000 character limit
+        MAX_SLACK_LENGTH = 2900
+        if len(reply_text) > MAX_SLACK_LENGTH:
+            reply_text = reply_text[:MAX_SLACK_LENGTH] + "\n\n... (truncated)"
+
         # Step 5 - Update the "thinking..." message with the actual reply
         client.chat_update(
             channel=channel,
