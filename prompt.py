@@ -103,9 +103,9 @@ def build_user_prompt(
         parts.append("""
 --- REPLY INSTRUCTIONS ---
 Generate 3 reply options for X/Twitter. Format each as:
-Option A: [reply text]
-Option B: [reply text]
-Option C: [reply text]
+Option 1: [reply text]
+Option 2: [reply text]
+Option 3: [reply text]
 
 Rules:
 - 2-5 sentences max per reply - punchy, not an essay
@@ -117,9 +117,9 @@ Rules:
         parts.append(f"""
 --- REPLY INSTRUCTIONS ---
 Generate 3 reply options for Reddit ({subreddit}). Format each as:
-Option A: [reply text]
-Option B: [reply text]
-Option C: [reply text]
+Option 1: [reply text]
+Option 2: [reply text]
+Option 3: [reply text]
 
 Rules:
 - 3-8 sentences is fine - Reddit rewards depth
