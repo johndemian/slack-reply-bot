@@ -135,3 +135,11 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Installer files
+*.exe
+*.msi
+*.dmg
+*.pkg
+*.deb
+*.rpm
