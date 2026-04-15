@@ -4,7 +4,7 @@ Kimchi Reply Bot - Slack app that generates natural replies to social media post
 Drop an X.com or Reddit link in any channel, mention the bot, and it will:
 1. Reply with "Thinking..." immediately
 2. Fetch the post content
-3. Generate 2-3 reply options using Claude (in Jonno's voice)
+3. Generate 2-3 reply options using Kimchi.dev AI
 4. Post the options back in the thread
 """
 
@@ -12,11 +12,11 @@ import logging
 import os
 import re
 import threading
+import requests
 
 from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
-import anthropic
 
 from fetchers import extract_url, fetch_post
 from prompt import SYSTEM_PROMPT, build_user_prompt
@@ -29,9 +29,8 @@ load_dotenv()
 
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 SLACK_APP_TOKEN = os.environ["SLACK_APP_TOKEN"]  # xapp-... for Socket Mode
-ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
-
-CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-20250514")
+KIMCHI_API_KEY = os.environ.get("KIMCHI_API_KEY")
+KIMCHI_API_URL = os.environ.get("KIMCHI_API_URL", "https://api.kimchi.dev/v1/chat/completions")
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("kimchi-reply-bot")
@@ -41,12 +40,11 @@ logger = logging.getLogger("kimchi-reply-bot")
 # ---------------------------------------------------------------------------
 
 app = App(token=SLACK_BOT_TOKEN)
-claude = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
 
 def _process_mention(event: dict, say, client):
     """
-    Core handler: extract URL, fetch content, call Claude, post reply.
+    Core handler: extract URL, fetch content, call Kimchi.dev, post reply.
     Runs in a background thread so Slack gets a fast ack.
     """
     text = event.get("text", "")
@@ -89,7 +87,7 @@ def _process_mention(event: dict, say, client):
         # Step 3 - Fetch post content
         post = fetch_post(url)
 
-        # Step 4 - Build prompt and call Claude
+        # Step 4 - Build prompt and call Kimchi.dev
         user_prompt = build_user_prompt(
             platform=post.platform,
             author=post.author,
@@ -101,14 +99,25 @@ def _process_mention(event: dict, say, client):
             url=post.url,
         )
 
-        response = claude.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=2048,
-            system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_prompt}],
-        )
+        # Call Kimchi.dev API
+        headers = {
+            "Authorization": f"Bearer {KIMCHI_API_KEY}",
+            "Content-Type": "application/json"
+        }
 
-        reply_text = response.content[0].text
+        payload = {
+            "model": "kimchi-model",  # Adjust based on kimchi.dev's model name
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt}
+            ],
+            "max_tokens": 2048
+        }
+
+        response = requests.post(KIMCHI_API_URL, headers=headers, json=payload)
+        response.raise_for_status()
+
+        reply_text = response.json()["choices"][0]["message"]["content"]
 
         # Step 5 - Update the "thinking..." message with the actual reply
         client.chat_update(

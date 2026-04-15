@@ -27,10 +27,11 @@ Go to **Event Subscriptions** and toggle ON. Subscribe to these bot events:
 ### Install to Workspace
 Go to **Install App** and click **Install to Workspace**. Copy the `xoxb-...` Bot User OAuth Token.
 
-## 2. Get Anthropic API Key
+## 2. Get Kimchi.dev API Key
 
-- Go to https://console.anthropic.com/settings/keys
+- Go to your kimchi.dev account dashboard
 - Create an API key
+- Note the API endpoint URL (usually `https://api.kimchi.dev/v1/chat/completions`)
 
 ## 3. Configure and Run
 
