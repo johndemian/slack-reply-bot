@@ -170,6 +170,7 @@ def fetch_reddit_thread(url: str) -> PostContent:
     json_url = f"{clean_url}.json"
 
     headers = {"User-Agent": "kimchi-reply-bot/1.0 (Python requests)"}
+    data = None
 
     for attempt in range(3):
         resp = requests.get(json_url, headers=headers, timeout=15)
@@ -180,6 +181,9 @@ def fetch_reddit_thread(url: str) -> PostContent:
         resp.raise_for_status()
         data = resp.json()
         break
+
+    if data is None:
+        raise ValueError(f"Failed to fetch Reddit post after 3 attempts (rate limited)")
 
     # data[0] = the post, data[1] = the comments
     post_data = data[0]["data"]["children"][0]["data"]
