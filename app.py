@@ -172,10 +172,36 @@ def handle_dm(event, say, client):
 
 
 # ---------------------------------------------------------------------------
+# HTTP health check server (keeps Render port open)
+# ---------------------------------------------------------------------------
+
+def run_health_server():
+    from http.server import HTTPServer, BaseHTTPRequestHandler
+    import threading
+
+    class HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(b'OK')
+
+        def log_message(self, format, *args):
+            pass  # Suppress logging
+
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(('0.0.0.0', port), HealthHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    logger.info(f"Health check server running on port {port}")
+
+
+# ---------------------------------------------------------------------------
 # Entrypoint
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    run_health_server()
     logger.info("Starting Kimchi Reply Bot (Socket Mode)...")
     handler = SocketModeHandler(app, SLACK_APP_TOKEN)
     handler.start()
