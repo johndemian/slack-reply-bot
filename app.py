@@ -129,10 +129,15 @@ def _process_mention(event: dict, say, client):
         clean_reply = re.sub(r'<think>.*?</think>', '', raw_reply, flags=re.DOTALL)
         clean_reply = re.sub(r'<thinking>.*?</thinking>', '', clean_reply, flags=re.DOTALL)
 
-        # Extract only lines starting with "Option X:"
+        # Extract only lines starting with "Option X:" and add spacing
         lines = clean_reply.split('\n')
         option_lines = [line.strip() for line in lines if line.strip().startswith('Option ')]
-        reply_text = '\n'.join(option_lines)
+        formatted_options = []
+        for opt in option_lines:
+            # Add newline after the colon
+            opt = opt.replace(':', ':\n', 1)
+            formatted_options.append(opt)
+        reply_text = '\n\n'.join(formatted_options)
 
         # Slack has a 3000 character limit
         MAX_SLACK_LENGTH = 2900
