@@ -30,7 +30,7 @@ load_dotenv()
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 SLACK_APP_TOKEN = os.environ["SLACK_APP_TOKEN"]  # xapp-... for Socket Mode
 KIMCHI_API_KEY = os.environ.get("KIMCHI_API_KEY")
-KIMCHI_API_URL = os.environ.get("KIMCHI_API_URL", "https://api.kimchi.dev/v1/chat/completions")
+KIMCHI_API_URL = os.environ.get("KIMCHI_API_URL", "https://llm.kimchi.dev/openai/v1")
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("kimchi-reply-bot")
